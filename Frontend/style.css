@@ -1,0 +1,25 @@
+:root {
+    --color1: #80df6d;
+    --color2: #d2ffcf;
+    --color3: #ffede5;
+    --color4: #fd845c;
+    --color5: #7d2982;
+    }
+
+@font-face {
+    font-family: "Italianno";
+    src: url(Font/Italianno-Regular.ttf);
+
+}
+
+@font-face {
+    font-family: "Inter";
+    src: url(Font/Inter-VariableFont_opsz\,wght.ttf);
+    
+}
+
+@font-face {
+    font-family: "ROME";
+    src: url(Font/Relationship\ of\ mélodrame.ttf);
+    
+}

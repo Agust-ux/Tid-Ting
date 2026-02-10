@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Timeline Calendar</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #eaeaea;
+    }
+
+    .heading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border-bottom: 2px solid black;
+      font-weight: 100;
+      font-family: "Italianno";
+    }
+
+    #monthInfo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 35px;
+    }
+
+    #monthInfo h1 {
+      margin: 20px 40px;
+    }
+
+    #monthInfo button {
+      font-size: 27px;
+      padding: 0 20px;
+      border: 3px solid #000;
+      background-color: #00000000;
+      color: #000;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    #monthInfo button:hover {
+      background-color: var(--color5);
+      color: #fff;
+      transition: background-color 0.4s ease-in-out, width 0.5s ease-in-out; 
+      border-radius: 10px;
+      border: 3px solid var(--color5);
+    }
+
+    #addProject {
+      padding: 5px 15px;
+      border: none;
+      border-bottom: solid 2px var(--color4);
+      font-family: Inter;
+      font-size: 20px;
+      margin-bottom: 30px;
+      color: #000;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    #addProject:hover {
+      background-color: var(--color4);
+      color: #fff;
+      transition: background-color 0.4s ease-in-out, width 0.5s ease-in-out; 
+      border-radius: 10px;
+    }
+
+    .calendar-wrapper {
+      position: relative;
+      padding: 12px;
+      background-color: var(--color4);
+    }
+
+    .calendar-grid {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      grid-auto-rows: 110px;
+      border: 3px solid black;
+      background-color: var(--color3);
+    }
+
+    .day {
+      border: 1px solid black;
+      padding: 6px;
+      font-weight: bold;
+      font-size: 22px;
+    }
+
+    .timeline-layer {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      right: 15px;
+      bottom: 15px;
+      pointer-events: none;
+    }
+
+    .timeline {
+      position: absolute;
+      height: 10px;
+      border-radius: 4px;
+      pointer-events: auto;
+      cursor: pointer;
+    }
+
+    .footer {
+      padding: 12px;
+      border-top: 2px solid black;
+    }
+
+    /* MODAL */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .modal-content {
+      background: var(--color3);
+      border: 2px solid black;
+      padding: 20px;
+      width: 600px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      border-radius: 10px;
+    }
+
+    .modal-content h2 {
+      text-align: center;
+      font-family: 'ROME', sans-serif;
+      font-size: 45px;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .modal-actions button{
+      background-color: var(--color5);
+      padding: 7px;
+      font-size: 15px;
+      font-weight: bolder;
+      border-radius: 10px;
+      color: #fff;
+      border: none;
+    }
+
+    #notesInput{
+      max-width: 590px;
+      min-width: 590px;
+      max-height: fit-content;
+      border-radius: 5px;
+      border: 1px solid #000;
+      padding: 5px;
+    }
+
+  </style>
+<div class="app">
+
+  <!-- HEADER -->
+  <div class="heading">
+    <div id="monthInfo">
+    <button id="prevMonth">←</button>
+    <h1 id="monthLabel"></h1>
+    <button id="nextMonth">→</button>
+    </div><br>
+    <button id="addProject">+ Add Project</button>
+  </div>
+
+
+  <!-- CALENDAR -->
+  <div class="calendar-wrapper">
+    <div class="calendar-grid" id="calendar"></div>
+    <div class="timeline-layer" id="timelines"></div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    Footer
+  </footer>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal hidden" id="modal">
+  <div class="modal-content">
+    <h2 id="modalTitle">Add Project</h2>
+
+    <input id="titleInput" placeholder="Project title" />
+    <input id="startInput" type="date" />
+    <input id="endInput" type="date" />
+
+    <select id="colorInput">
+      <option value="rgba(131,216,91,0.5)">Green</option>
+      <option value="rgba(186,216,180,0.5)">Mint</option>
+      <option value="rgba(255,96,41,0.5)">Orange</option>
+      <option value="rgba(239,164,138,0.5)">Peach</option>
+      <option value="rgba(108,66,112,0.5)">Purple</option>
+    </select>
+
+    <textarea id="notesInput" placeholder="Notes"></textarea>
+
+    <div class="modal-actions">
+      <button id="saveProject">Save</button>
+      <button id="closeModal">Cancel</button>
+      <button id="deleteProject" class="hidden">Delete</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let currentDate = new Date();
+let projects = [];
+let editingId = null;
+
+const calendar = document.getElementById("calendar");
+const timelines = document.getElementById("timelines");
+const monthLabel = document.getElementById("monthLabel");
+const modal = document.getElementById("modal");
+
+const titleInput = document.getElementById("titleInput");
+const startInput = document.getElementById("startInput");
+const endInput = document.getElementById("endInput");
+const colorInput = document.getElementById("colorInput");
+const notesInput = document.getElementById("notesInput");
+const deleteBtn = document.getElementById("deleteProject");
+
+/* ---------------- STORAGE ---------------- */
+
+function saveProjects() {
+  localStorage.setItem("projects", JSON.stringify(projects));
+}
+
+function loadProjects() {
+  const data = localStorage.getItem("projects");
+  if (data) projects = JSON.parse(data);
+}
+
+/* ---------------- CALENDAR ---------------- */
+
+function renderCalendar() {
+  calendar.innerHTML = "";
+  timelines.innerHTML = "";
+
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth();
+
+  monthLabel.textContent =
+    currentDate.toLocaleString("default", { month: "long" }) + " " + year;
+
+  const firstDay = new Date(year, month, 1);
+  const lastDay = new Date(year, month + 1, 0);
+  const offset = (firstDay.getDay() + 6) % 7;
+
+  for (let i = 0; i < offset; i++) {
+    calendar.appendChild(document.createElement("div"));
+  }
+
+  for (let d = 1; d <= lastDay.getDate(); d++) {
+    const cell = document.createElement("div");
+    cell.className = "day";
+    cell.textContent = d;
+
+    const mm = String(month + 1).padStart(2, "0");
+    const dd = String(d).padStart(2, "0");
+    cell.dataset.date = `${year}-${mm}-${dd}`;
+
+    calendar.appendChild(cell);
+  }
+
+  renderTimelines();
+}
+
+/* ---------------- TIMELINES ---------------- */
+
+function renderTimelines() {
+  timelines.innerHTML = "";
+
+  projects.forEach(project => {
+    const cells = [...document.querySelectorAll(".day")]
+      .filter(c => c.dataset.date >= project.start && c.dataset.date <= project.end);
+
+    const rows = {};
+    cells.forEach(cell => {
+      rows[cell.offsetTop] ??= [];
+      rows[cell.offsetTop].push(cell);
+    });
+
+    Object.values(rows).forEach(row => {
+      const first = row[0];
+      const last = row[row.length - 1];
+
+      const bar = document.createElement("div");
+      bar.className = "timeline";
+      bar.style.background = project.color;
+      bar.style.left = `${first.offsetLeft}px`;
+      bar.style.top = `${first.offsetTop + 80}px`;
+      bar.style.width =
+        `${last.offsetLeft + last.offsetWidth - first.offsetLeft}px`;
+
+      bar.onclick = () => openModal(project);
+      timelines.appendChild(bar);
+    });
+  });
+}
+
+/* ---------------- MODAL ---------------- */
+
+function openModal(project = null) {
+  modal.classList.remove("hidden");
+
+  if (project) {
+    editingId = project.id;
+    titleInput.value = project.title;
+    startInput.value = project.start;
+    endInput.value = project.end;
+    colorInput.value = project.color;
+    notesInput.value = project.notes;
+    deleteBtn.classList.remove("hidden");
+  } else {
+    editingId = null;
+    titleInput.value = "";
+    startInput.value = "";
+    endInput.value = "";
+    notesInput.value = "";
+    deleteBtn.classList.add("hidden");
+  }
+}
+
+function closeModal() {
+  modal.classList.add("hidden");
+}
+
+/* ---------------- BUTTONS ---------------- */
+
+document.getElementById("addProject").onclick = () => openModal();
+document.getElementById("closeModal").onclick = closeModal;
+
+document.getElementById("saveProject").onclick = () => {
+  const project = {
+    id: editingId ?? Date.now(),
+    title: titleInput.value,
+    start: startInput.value,
+    end: endInput.value,
+    color: colorInput.value,
+    notes: notesInput.value
+  };
+
+  projects = editingId
+    ? projects.map(p => p.id === editingId ? project : p)
+    : [...projects, project];
+
+  saveProjects();
+  closeModal();
+  renderCalendar();
+};
+
+deleteBtn.onclick = () => {
+  projects = projects.filter(p => p.id !== editingId);
+  saveProjects();
+  closeModal();
+  renderCalendar();
+};
+
+function goToPrevMonth() {
+  currentDate.setMonth(currentDate.getMonth() - 1);
+  renderCalendar();
+}
+
+function goToNextMonth() {
+  currentDate.setMonth(currentDate.getMonth() + 1);
+  renderCalendar();
+}
+
+
+document.getElementById("prevMonth").onclick = goToPrevMonth;
+document.getElementById("nextMonth").onclick = goToNextMonth;
+
+document.addEventListener("keydown", (e) => {
+  // Ignore typing inside inputs / textarea
+  if (
+    e.target.tagName === "INPUT" ||
+    e.target.tagName === "TEXTAREA"
+  ) return;
+
+  if (e.key === "ArrowLeft") {
+    goToPrevMonth();
+  }
+
+  if (e.key === "ArrowRight") {
+    goToNextMonth();
+  }
+});
+
+
+/* ---------------- INIT ---------------- */
+
+loadProjects();
+renderCalendar();
+
+</script>
+</body>
+</html>

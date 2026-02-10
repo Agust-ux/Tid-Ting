@@ -1,0 +1,46 @@
+# Tid & Ting
+
+Tid & Ting er en enkel web-app som kombinerer:
+- To-do-liste
+- Kalender med prosjekt-timelines
+
+Prosjektet er under utvikling. Foreløpig lagres data lokalt i nettleseren.
+
+## Tech stack
+- HTML
+- CSS
+- Vanilla JavaScript
+- LocalStorage (midlertidig)
+
+Planlagt:
+- Node.js backend
+- Database (ikke bestemt ennå)
+
+## Funksjonalitet
+- Legge til / fjerne oppgaver
+- Markere oppgaver som fullført
+- Kalender med måned-navigasjon
+- Prosjekter med start- og sluttdato
+- Fargekoding og notater per prosjekt
+
+## Kjøre prosjektet lokalt
+1. Klon repoet
+2. Åpne `index.html` i nettleseren  
+   *(ingen build-steg foreløpig)*
+
+## Mappestruktur
+/ (root)
+│─ index.html
+│─ calendar.html
+│─ header.html
+│─ style.css
+│─ script.js
+│─ index.html
+│─ /Images
+│─ /docs
+
+## Status
+- Frontend: aktiv utvikling
+- Backend: ikke implementert ennå
+
+

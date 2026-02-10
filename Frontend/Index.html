@@ -3,183 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tid & Ting</title>
+    <title>Header</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <style>
+        body{
+            margin: 0;
+            background-color: #fff;
+        }
 
-    *{
-        margin: 0;
-        padding: 0;
-        font-family: 'Poppins', sans-serif;
-        box-sizing: border-box;
-    }
+        nav {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 35px;
+            background-color: #fff;
+            box-shadow: 0 6px 40px rgba(0, 0, 0, 0.4);
+        }
 
-    .container{
-        width: 100%;
-        min-height: 100vh;
-        background: linear-gradient(135deg, var(--color3), var(--color4));
-        padding: 10px;
+        nav img{
+            height: 130px;
+            width: 130px;
+            border: solid 2px #000;
+            border-radius: 40px;
+        }
 
-    }
+        nav h1 {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: Italianno;
+            font-size: 70px;
+            font-weight: 500;
+            letter-spacing: 5px;
+            color: var(--color5);
+        }
 
-    .todo-nettside{
-        width: 100%;
-        max-width: 540px;
-        background-color: var(--color3);
-        margin: 100px auto 20px;
-        padding: 40px 30px 70px;
-        border-radius: 10px;
-    }
+        nav button{
+            padding: 5px 20px;
+            background-color: #fff;
+            border: none;
+            border-bottom: solid 2px var(--color4);
+            font-family: Inter;
+            font-size: 20px;
+            margin: 10px;
+            font-weight: 300;
+            color: #000;
+            /* border-radius: 10px; */
+        }
 
-    .todo-nettside h2{
-        color: #000;
-        display: flex;
-        align-items: center;
-        margin-bottom: 20px;
-    }
+        nav button:hover{
+            background-color: var(--color4);
+            color: #fff;
+            transition: background-color 0.4s ease-in-out, width 0.5s ease-in-out; 
+            border-radius: 10px;
+        }
 
-    .todo-nettside h2 img{
-        width: 30px;
-        margin-left: 10px;
-    }
-
-    .row{
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        background: #fff;
-        border-radius: 30px;
-        padding-left: 20px;
-        margin-bottom: 25px;
-    }
-
-    input{
-        flex: 1;
-        border: none;
-        outline: none;
-        background: transparent;
-        padding: 10px;
-    }
-
-    button{
-        border: none;
-        outline: none;
-        padding: 16px 50px;
-        background-color: var(--color1);
-        font-size: 16px;
-        cursor: pointer;
-        border-radius: 40px;
-    }
-
-    ul li{
-        display: grid;
-        align-items: center;
-        list-style: none;
-        font-size: 17px;
-        padding: 12px 8px 12px 50px;
-        user-select: none;
-        cursor: pointer;
-        position: relative;
-    }
-
-    ul li::before{
-        content: '';
-        position: absolute;
-        height: 28px;
-        width: 28px;
-        border-radius: 50%;
-        background-image: url(Images/Unchecked.png);
-        background-size: cover;
-        background-position: center;
-        left: 8px;
-        top: 47%;
-        transform: translateY(-50%);
-    }
-
-
-    ul li.checked{
-        color: #838383;
-        text-decoration: line-through;
-
-    }
-
-    ul li.checked::before{
-            background-image: url(Images/Checked.png);
-    }
-
-    ul li span{
-        position: absolute;
-        right: 0;
-        top: 5px;
-        width: 40px;
-        height: 40px;
-        font-size: 22px;
-        color: #838383;
-        line-height: 40px;
-        text-align: center;
-        border-radius: 50%;
-    }
-
-    ul li span:hover{
-        background: #cfcfcf;
-    }
+        #quote{
+            width: 100%;
+            text-align: center;
+            padding: 20px 0;
+            font-size: 25px;
+            font-family: Inter;
+            font-weight: 450;
+            background-color: var(--color3);
+            /* margin: 50px 0; */
+            border-top: solid 2px #000;
+            border-bottom: solid 2px #000;
+        }
     </style>
-    <div class="container">
-        <div class="todo-nettside">
-            <h2>To-Do liste <img src="Images/Notepad.png" alt="notepad icon"></h2>
-            <div class="row">
-                <input type="text" id="input-box" placeholder="Skriv oppgave">
-                <button onclick="addTask()">Legg til</button>
-            </div>
-            <ul id="list-container">
-                <!-- <li class="checked">Task 1</li>
-                <li>Task 2</li>
-                <li>Task 3</li> -->
-            </ul>
+
+
+    <nav>
+        <img src="Images/Logo.png" alt="Nettside logo">
+        <h1>Tid <br> & Ting</h1>
+        <div id="button_holders">
+            <a href="calendar.html"><button>Kalendar</button></a>
+            <a href="reminders.html"><button>Påminnelser</button></a>
         </div>
-    </div>
-<script>
-    const inputBox = document.getElementById("input-box")
-    const listContainer = document.getElementById("list-container")
+    </nav>
 
-    function addTask(){
-        if(inputBox.value === ''){
-            alert('Feltet kan ikke stå tomt');
-        }
-        else{
-            let li = document.createElement("li");
-            li.innerHTML = inputBox.value;
-            listContainer.appendChild(li);
-            let span = document.createElement("span");
-            span.innerHTML = "\u00d7";
-            li.appendChild(span);
-        }
-        inputBox.value = "";
-        saveData();
-    }
+    <!-- Reminders near to a day of finish -->
+     <div id="reminder-card">
+        
+     </div>
 
-    listContainer.addEventListener("click", function(e){
-        if(e.target.tagName === "LI"){
-            e.target.classList.toggle("checked");
-            saveData();
-        }
-        else if(e.target.tagName === "SPAN"){
-            e.target.parentElement.remove();
-            saveData();
-        }
-    }, false)
+    <!-- Random shuffled quotes -->
+     <div id="quote">
+        <span id="qotd">"Lorem ipsum dolor sit amet consectetur adipiscing elit sed do"</span>
+     </div>
 
-    function saveData(){
-        localStorage.setItem("data", listContainer.innerHTML);
-    }
-
-    function showTask(){
-        listContainer.innerHTML = localStorage.getItem("data");
-    }
-
-    showTask();
-</script>
+    <!-- Newest timelined projects -->
+     <footer>footer</footer>
 </body>
 </html>

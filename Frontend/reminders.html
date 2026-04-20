@@ -1,186 +1,331 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tid & Ting</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tid & Ting</title>
+
+<style>
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+}
+
+:root {
+--color1: #80df6d;
+--color2: #d2ffcf;
+--color3: #ffede5;
+--color4: #fd845c;
+--color5: #7d2982;
+}
+
+@font-face {
+    font-family: "Italianno";
+    src: url(Font/Italianno-Regular.ttf);
+
+}
+
+@font-face {
+    font-family: "Inter";
+    src: url(Font/Inter-VariableFont_opsz\,wght.ttf);
+    
+}
+
+@font-face {
+    font-family: "ROME";
+    src: url(Font/Relationship\ of\ mélodrame.ttf);
+    
+}
+
+nav {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 35px;
+    background-color: #fff;
+    box-shadow: 0 6px 40px rgba(0, 0, 0, 0.4);
+    margin: 0;
+}
+
+nav img{
+    height: 130px;
+    width: 130px;
+    border: solid 2px #000;
+    border-radius: 40px;
+}
+
+nav h1 {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: Italianno;
+    font-size: 70px;
+    font-weight: 500;
+    letter-spacing: 5px;
+    color: var(--color5);
+}
+
+nav button{
+    padding: 5px 20px;
+    background-color: #fff;
+    border: none;
+    border-bottom: solid 2px var(--color4);
+    font-family: Inter;
+    font-size: 20px;
+    margin: 10px;
+    font-weight: 300;
+    color: #000;
+    /* border-radius: 10px; */
+}
+
+nav button:hover{
+    background-color: var(--color4);
+    color: #fff;
+    transition: background-color 0.4s ease-in-out, width 0.5s ease-in-out; 
+    border-radius: 10px;
+}
+
+/* ONLY logo + title links */
+nav .logo-link,
+nav .title-link {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+}
+
+/* image fix */
+nav img {
+    display: block;
+}
+
+/* title fix */
+nav .title-link h1 {
+    margin: 0;
+    line-height: 1;
+}
+
+body{
+    background: #e6e6e6;
+    justify-content: center;
+}
+
+.container{
+    width: 100%;
+    max-width: 540px;
+    margin: 60px auto;
+}
+
+.todo-nettside{
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+h2{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.row{
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+input{
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    outline: none;
+}
+
+input:focus{
+    border-color: #4a6cf7;
+}
+
+/* DU HAR NAV-BUTTONS, SÅ VI UNNGÅR KRASJ */
+.todo-nettside button{
+    padding: 12px 20px;
+    border: none;
+    border-radius: 10px;
+    background: #4a6cf7;
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.todo-nettside button:hover{
+    background: #3a57d6;
+}
+
+/* LISTE */
+ul li{
+    list-style: none;
+    font-size: 17px;
+    padding: 12px 40px 12px 50px;
+    position: relative;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: 0.2s;
+}
+
+ul li:hover{
+    background: #f3f3f3;
+}
+
+/* UNCHECKED (BEHOLDER BILDE) */
+ul li::before{
+    content: '';
+    position: absolute;
+    height: 28px;
+    width: 28px;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-image: url("Images/Unchecked.png");
+    background-size: cover;
+}
+
+/* CHECKED */
+ul li.checked{
+    color: #888;
+    text-decoration: line-through;
+}
+
+ul li.checked::before{
+    background-image: url("Images/Checked.png");
+}
+
+/* DELETE */
+ul li span{
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    color: #888;
+}
+
+ul li span:hover{
+    background: #ddd;
+}
+
+/* EMPTY STATE */
+.empty{
+    text-align: center;
+    color: #888;
+    padding: 15px;
+}
+</style>
 </head>
+
 <body>
-    <style>
+        <nav>
+            <a href="index.html" class="logo-link">
+                <img src="Images/Logo.png" alt="Nettside logo">
+            </a>
 
-    *{
-        margin: 0;
-        padding: 0;
-        font-family: 'Poppins', sans-serif;
-        box-sizing: border-box;
-    }
-
-    .container{
-        width: 100%;
-        min-height: 100vh;
-        background: linear-gradient(135deg, var(--color3), var(--color4));
-        padding: 10px;
-
-    }
-
-    .todo-nettside{
-        width: 100%;
-        max-width: 540px;
-        background-color: var(--color3);
-        margin: 100px auto 20px;
-        padding: 40px 30px 70px;
-        border-radius: 10px;
-    }
-
-    .todo-nettside h2{
-        color: #000;
-        display: flex;
-        align-items: center;
-        margin-bottom: 20px;
-    }
-
-    .todo-nettside h2 img{
-        width: 30px;
-        margin-left: 10px;
-    }
-
-    .row{
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        background: #fff;
-        border-radius: 30px;
-        padding-left: 20px;
-        margin-bottom: 25px;
-    }
-
-    input{
-        flex: 1;
-        border: none;
-        outline: none;
-        background: transparent;
-        padding: 10px;
-    }
-
-    button{
-        border: none;
-        outline: none;
-        padding: 16px 50px;
-        background-color: var(--color1);
-        font-size: 16px;
-        cursor: pointer;
-        border-radius: 40px;
-    }
-
-    ul li{
-        display: grid;
-        align-items: center;
-        list-style: none;
-        font-size: 17px;
-        padding: 12px 8px 12px 50px;
-        user-select: none;
-        cursor: pointer;
-        position: relative;
-    }
-
-    ul li::before{
-        content: '';
-        position: absolute;
-        height: 28px;
-        width: 28px;
-        border-radius: 50%;
-        background-image: url(Images/Unchecked.png);
-        background-size: cover;
-        background-position: center;
-        left: 8px;
-        top: 47%;
-        transform: translateY(-50%);
-    }
-
-
-    ul li.checked{
-        color: #838383;
-        text-decoration: line-through;
-
-    }
-
-    ul li.checked::before{
-            background-image: url(Images/Checked.png);
-    }
-
-    ul li span{
-        position: absolute;
-        right: 0;
-        top: 5px;
-        width: 40px;
-        height: 40px;
-        font-size: 22px;
-        color: #838383;
-        line-height: 40px;
-        text-align: center;
-        border-radius: 50%;
-    }
-
-    ul li span:hover{
-        background: #cfcfcf;
-    }
-    </style>
-
-    <div class="container">
-        <div class="todo-nettside">
-            <h2>To-Do liste <img src="Images/Notepad.png" alt="notepad icon"></h2>
-            <div class="row">
-                <input type="text" id="input-box" placeholder="Skriv oppgave">
-                <button onclick="addTask()">Legg til</button>
-            </div>
-            <ul id="list-container">
-                <!-- <li class="checked">Task 1</li>
-                <li>Task 2</li>
-                <li>Task 3</li> -->
-            </ul>
+            <a href="index.html" class="title-link">
+                <h1>Tid <br> & Ting</h1>
+            </a>
+        <div id="button_holders">
+            <a href="calendar.html"><button>Kalendar</button></a>
+            <a href="reminders.html"><button>Påminnelser</button></a>
         </div>
-    </div>
-<script>
-    const inputBox = document.getElementById("input-box")
-    const listContainer = document.getElementById("list-container")
+    </nav>
 
-    function addTask(){
-        if(inputBox.value === ''){
-            alert('Feltet kan ikke stå tomt');
-        }
-        else{
-            let li = document.createElement("li");
-            li.innerHTML = inputBox.value;
-            listContainer.appendChild(li);
-            let span = document.createElement("span");
-            span.innerHTML = "\u00d7";
-            li.appendChild(span);
-        }
-        inputBox.value = "";
+<div class="container">
+    <div class="todo-nettside">
+        <h2>To-Do liste 📝</h2>
+
+        <div class="row">
+            <input type="text" id="input-box" placeholder="Skriv oppgave">
+            <button id="addBtn">Legg til</button>
+        </div>
+
+        <ul id="list-container"></ul>
+    </div>
+</div>
+
+<script>
+const inputBox = document.getElementById("input-box");
+const listContainer = document.getElementById("list-container");
+const addBtn = document.getElementById("addBtn");
+
+function updateEmpty(){
+    if(listContainer.children.length === 0){
+        listContainer.innerHTML = `<p class="empty">Ingen oppgaver enda ✨</p>`;
+    }
+}
+
+function addTask(){
+    const value = inputBox.value.trim();
+
+    if(value === ''){
+        alert('Feltet kan ikke stå tomt');
+        return;
+    }
+
+    // fjern empty tekst hvis den finnes
+    const empty = document.querySelector(".empty");
+    if(empty) empty.remove();
+
+    const li = document.createElement("li");
+    li.textContent = value;
+
+    const span = document.createElement("span");
+    span.innerHTML = "\u00d7";
+
+    li.appendChild(span);
+    listContainer.appendChild(li);
+
+    inputBox.value = "";
+    saveData();
+}
+
+addBtn.addEventListener("click", addTask);
+
+inputBox.addEventListener("keydown", function(e){
+    if(e.key === "Enter"){
+        addTask();
+    }
+});
+
+listContainer.addEventListener("click", function(e){
+    if(e.target.tagName === "LI"){
+        e.target.classList.toggle("checked");
         saveData();
     }
-
-    listContainer.addEventListener("click", function(e){
-        if(e.target.tagName === "LI"){
-            e.target.classList.toggle("checked");
-            saveData();
-        }
-        else if(e.target.tagName === "SPAN"){
-            e.target.parentElement.remove();
-            saveData();
-        }
-    }, false)
-
-    function saveData(){
-        localStorage.setItem("data", listContainer.innerHTML);
+    else if(e.target.tagName === "SPAN"){
+        e.target.parentElement.remove();
+        saveData();
+        updateEmpty();
     }
+});
 
-    function showTask(){
-        listContainer.innerHTML = localStorage.getItem("data");
-    }
+function saveData(){
+    localStorage.setItem("data", listContainer.innerHTML);
+}
 
-    showTask();
+function showTask(){
+    listContainer.innerHTML = localStorage.getItem("data") || "";
+    updateEmpty();
+}
+
+showTask();
 </script>
+
 </body>
 </html>

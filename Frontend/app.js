@@ -28,6 +28,8 @@ app.get('/reminders.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'reminders.html'));
 });
 
+app.use(express.static(__dirname));
+
 //Utgangtpunkt https://mariadb.com/docs/connectors/mariadb-connector-nodejs/getting-started-with-the-node-js-connector
 
 app.listen(3007, () => {

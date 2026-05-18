@@ -1,0 +1,96 @@
+# =====================
+# Dependencies
+# =====================
+node_modules
+.pnp/
+.pnp.js
+
+# Yarn Berry
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.yarn/patches
+.yarn/releases
+.yarn/plugins
+.yarn/sdks
+.yarn/versions
+
+# =====================
+# Logs
+# =====================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# =====================
+# Runtime data
+# =====================
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# =====================
+# Coverage / testing
+# =====================
+coverage/
+.nyc_output/
+
+# =====================
+# Build outputs
+# =====================
+dist/
+build/
+out/
+.next/
+.nuxt/
+.vuepress/dist
+.svelte-kit
+.vercel
+.turbo
+.esbuild/
+
+# =====================
+# Environment variables (VERY IMPORTANT)
+# =====================
+.env
+.env.*
+!.env.example
+!.env.sample
+
+# =====================
+# Cache
+# =====================
+.cache/
+.parcel-cache/
+.eslintcache
+.stylelintcache
+.tsbuildinfo
+
+# =====================
+# IDE / Editor
+# =====================
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-project
+*.sublime-workspace
+
+# =====================
+# OS files
+# =====================
+.DS_Store
+Thumbs.db
+
+# =====================
+# Misc
+# =====================
+*.tgz
+*.tar.gz
+
+nodemon

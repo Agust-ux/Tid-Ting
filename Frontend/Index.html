@@ -320,5 +320,13 @@ nav .title-link h1 {
     <button>+ Legg til nytt prosjekt</button></a> <!--Dette skal gi en pop up som lager en ny card for prosjektet og info som tid skal sendes til calendar.html for å opprette en ny tidslinje-->
 </div>
 
+<script>
+    fetch("http://localhost:3007/api/projects")
+    .then(res => res.json())
+    .then(data => {
+        console.log("PROJECTS:", data);
+    });
+</script>
+
 </body>
 </html>

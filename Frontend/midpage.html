@@ -1,0 +1,209 @@
+<!--Dette er landingssiden om man trykker direkte på reminders knappen. Du kan enten lage en vanlig to do liste(Samme funksjonalitet som prosjekt to-do lister) eller lage flere under en prosjekt-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Påminnelser landingsside</title>
+</head>
+<body>
+    <style>
+        body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f6f6f6;
+  color: #222;
+}
+
+    :root {
+    --color1: #80df6d;
+    --color2: #d2ffcf;
+    --color3: #ffede5;
+    --color4: #fd845c;
+    --color5: #7d2982;
+    }
+
+    @font-face {
+        font-family: "Italianno";
+        src: url(Font/Italianno-Regular.ttf);
+
+    }
+
+    @font-face {
+        font-family: "Inter";
+        src: url(Font/Inter-VariableFont_opsz\,wght.ttf);
+        
+    }
+
+    @font-face {
+        font-family: "ROME";
+        src: url(Font/Relationship\ of\ mélodrame.ttf);
+        
+    }
+
+    body{
+        margin: 0;
+    }
+
+nav {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 35px;
+    background-color: #fff;
+    box-shadow: 0 6px 40px rgba(0, 0, 0, 0.4);
+    margin: 0;
+}
+
+nav img{
+    height: 130px;
+    width: 130px;
+    border: solid 2px #000;
+    border-radius: 40px;
+}
+
+nav h1 {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: Italianno;
+    font-size: 70px;
+    font-weight: 500;
+    letter-spacing: 5px;
+    color: var(--color5);
+}
+
+nav button{
+    padding: 5px 20px;
+    background-color: #fff;
+    border: none;
+    border-bottom: solid 2px var(--color4);
+    font-family: Inter;
+    font-size: 20px;
+    margin: 10px;
+    font-weight: 300;
+    color: #000;
+    /* border-radius: 10px; */
+}
+
+nav button:hover{
+    background-color: var(--color4);
+    color: #fff;
+    transition: background-color 0.4s ease-in-out, width 0.5s ease-in-out; 
+    border-radius: 10px;
+}
+
+nav .title-link h1 {
+    margin: 0;
+    line-height: 1;
+}
+nav .logo-link,
+nav .title-link {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+}
+
+.panel-container {
+    width: 90%;
+    max-width: 850px;
+    margin: 60px auto;
+
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.panel {
+    background: white;
+    border: 1px solid #ececec;
+    border-radius: 18px;
+
+    padding: 24px 28px;
+
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    transition: 0.2s ease;
+    cursor: pointer;
+}
+
+.panel:hover {
+    transform: translateY(-2px);
+    border-color: var(--color4);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+}
+
+.panel-icon {
+    width: 52px;
+    height: 52px;
+
+    border-radius: 14px;
+
+    background: var(--color3);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 24px;
+}
+
+.panel-text h2 {
+    margin: 0;
+    font-family: Inter;
+    font-size: 21px;
+    font-weight: 600;
+    color: #222;
+}
+
+.panel-text p {
+    margin-top: 5px;
+
+    font-family: Inter;
+    font-size: 15px;
+    color: #777;
+}
+    </style>
+        <nav>
+            <a href="index.html" class="logo-link">
+                <img src="Images/Logo.png" alt="Nettside logo">
+            </a>
+
+            <a href="index.html" class="title-link">
+                <h1>Tid <br> & Ting</h1>
+            </a>
+        <div id="button_holders">
+            <a href="calendar.html"><button>Kalendar</button></a>
+            <a href="reminders.html"><button>Påminnelser</button></a>
+        </div>
+    </nav>
+    <br><br><br>
+
+<div class="panel-container">
+
+    <div class="panel">
+        <div class="panel-icon">✓</div>
+
+        <div class="panel-text">
+            <h2>Classic To-Do</h2>
+            <p>En klassisk to-do liste for dagen</p>
+        </div>
+    </div>
+
+    <div class="panel">
+        <div class="panel-icon">📁</div>
+
+        <div class="panel-text">
+            <h2>Projects</h2>
+            <p>Organizering av større prosjekter.</p>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

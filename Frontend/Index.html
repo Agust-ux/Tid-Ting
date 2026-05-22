@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Prosjekt To Do Liste</title>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="css/style.css">
 
 <style>
     * {
@@ -12,32 +12,6 @@
         padding: 0;
         box-sizing: border-box;
         font-family: Arial, Helvetica, sans-serif;
-    }
-
-    :root {
-    --color1: #80df6d;
-    --color2: #d2ffcf;
-    --color3: #ffede5;
-    --color4: #fd845c;
-    --color5: #7d2982;
-    }
-
-    @font-face {
-        font-family: "Italianno";
-        src: url(Font/Italianno-Regular.ttf);
-
-    }
-
-    @font-face {
-        font-family: "Inter";
-        src: url(Font/Inter-VariableFont_opsz\,wght.ttf);
-        
-    }
-
-    @font-face {
-        font-family: "ROME";
-        src: url(Font/Relationship\ of\ mélodrame.ttf);
-        
     }
 
     body{
@@ -83,7 +57,6 @@ nav button{
     margin: 10px;
     font-weight: 300;
     color: #000;
-    /* border-radius: 10px; */
 }
 
 nav button:hover{
@@ -93,7 +66,6 @@ nav button:hover{
     border-radius: 10px;
 }
 
-/* ONLY logo + title links */
 nav .logo-link,
 nav .title-link {
     text-decoration: none;
@@ -102,12 +74,10 @@ nav .title-link {
     align-items: center;
 }
 
-/* image fix */
 nav img {
     display: block;
 }
 
-/* title fix */
 nav .title-link h1 {
     margin: 0;
     line-height: 1;
@@ -196,7 +166,6 @@ nav .title-link h1 {
         background: #333;
     }
 
-    /* Add Project Button */
     .add-project {
         margin-top: 40px;
         text-align: center;
@@ -214,6 +183,116 @@ nav .title-link h1 {
     }
 
     .add-project button:hover {
+        background: #125ca1;
+    }
+
+    .modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 999;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .modal-content {
+        background: white;
+        padding: 30px;
+        border-radius: 20px;
+        width: 400px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .modal-content input,
+    .modal-content textarea {
+        padding: 12px;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+    }
+
+    .modal-buttons {
+        display: flex;
+        gap: 10px;
+    }
+
+    .modal-buttons button {
+        flex: 1;
+        padding: 12px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+
+    .project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+    .hidden {
+        display: none !important;
+    }
+
+    .menu-wrapper {
+        position: relative;
+    }
+
+    .menu-btn {
+        background: none;
+        border: none;
+        font-size: 22px;
+        cursor: pointer;
+    }
+
+    .menu {
+        position: absolute;
+        right: 0;
+        top: 25px;
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        min-width: 140px;
+        z-index: 10;
+    }
+
+    .menu-item {
+        padding: 10px;
+        border: none;
+        background: none;
+        text-align: left;
+        cursor: pointer;
+    }
+
+    .menu-item:hover {
+        background: #f2f2f2;
+    }
+
+    .menu-item.delete {
+        color: red;
+    }
+
+    .details-btn {
+        margin-top: 12px;
+        width: 100%;
+        padding: 10px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        background: #1976d2;
+        color: white;
+    }
+
+    .details-btn:hover {
         background: #125ca1;
     }
 </style>
@@ -238,95 +317,53 @@ nav .title-link h1 {
     Prosjekt To Do Liste
 </div>
 
-<div class="project-grid">
-
-    <div class="project-card">
-        <div class="project-title">Prosjekt 1</div>
-
-        <div class="task">
-            <input type="checkbox">
-            <div class="task-details">
-                Task 1
-                <div class="task-time">19:00 – 22. mars</div>
-            </div>
-        </div>
-
-        <div class="task">
-            <input type="checkbox">
-            <div class="task-details">
-                Task 2
-                <div class="task-time">19:00 – 22. mars</div>
-            </div>
-        </div>
-
-        <div class="task">
-            <input type="checkbox">
-            <div class="task-details">
-                Task 3
-                <div class="task-time">19:00 – 22. mars</div>
-            </div>
-        </div>
-
-        <button class="timeline-btn">Se prosjekt tidslinje</button> <!--Denne knappen tar deg til calendar.html og til spesifikt hvor prosjektet er-->
-    </div>
-
-    <div class="project-card">
-        <div class="project-title">Prosjekt 2</div>
-
-        <div class="task">
-            <input type="checkbox">
-            <div class="task-details">
-                UI Design
-                <div class="task-time">10:00 – 24. mars</div>
-            </div>
-        </div>
-
-        <div class="task">
-            <input type="checkbox">
-            <div class="task-details">
-                Backend Setup
-                <div class="task-time">14:00 – 25. mars</div>
-            </div>
-        </div>
-
-        <button class="timeline-btn">Se prosjekt tidslinje</button>
-    </div>
-
-    <div class="project-card">
-        <div class="project-title">Prosjekt 3</div>
-
-        <div class="task">
-            <input type="checkbox">
-            <div class="task-details">
-                Testing
-                <div class="task-time">12:00 – 26. mars</div>
-            </div>
-        </div>
-
-        <div class="task">
-            <input type="checkbox">
-            <div class="task-details">
-                Deploy
-                <div class="task-time">18:00 – 28. mars</div>
-            </div>
-        </div>
-
-        <button class="timeline-btn">Se prosjekt tidslinje</button>
-    </div>
-
-</div>
+<div class="project-grid" id="projectGrid"></div>
 
 <div class="add-project">
-    <button>+ Legg til nytt prosjekt</button></a> <!--Dette skal gi en pop up som lager en ny card for prosjektet og info som tid skal sendes til calendar.html for å opprette en ny tidslinje-->
+
+    <button id="openProjectModal">
+        + Legg til nytt prosjekt
+    </button>
+
 </div>
 
-<script>
-    fetch("http://localhost:3007/api/projects")
-    .then(res => res.json())
-    .then(data => {
-        console.log("PROJECTS:", data);
-    });
-</script>
+<div class="modal hidden" id="projectModal">
+    <div class="modal-content">
+        <h2>Nytt prosjekt</h2>
 
+        <input
+            type="text"
+            id="projectTitle"
+            placeholder="Project title"
+        >
+
+        <textarea
+            id="projectDescription"
+            placeholder="Description"
+        ></textarea>
+
+        <input
+            type="date"
+            id="projectStart"
+        >
+
+        <input
+            type="date"
+            id="projectEnd"
+        >
+
+        <div class="modal-buttons">
+            <button id="saveProjectBtn">
+                Save Project
+            </button>
+
+            <button id="closeModalBtn">
+                Cancel
+            </button>
+        </div>
+    </div>
+
+</div>
+<script src="js/script.js"></script>
 </body>
 </html>

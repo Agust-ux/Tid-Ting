@@ -16,15 +16,23 @@ const pool = mariadb.createPool({
     connectionLimit: parseInt(process.env.DB_LIMIT) || 5
 });
 
-app.get('/index.html', (req, res) => {
+app.use(express.static(path.join(__dirname, "../Frontend")));
+
+app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../Frontend/index.html'));
 });
 
-app.get('/calendar.html', (req, res) => {
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../Frontend/prosjekt.html'));
+});
+
+app.get('Images/Logo.png');
+
+app.get('/calendar', (req, res) => {
     res.sendFile(path.join(__dirname, '../Frontend/calendar.html'));
 });
 
-app.get('/reminders.html', (req, res) => {
+app.get('/reminders', (req, res) => {
     res.sendFile(path.join(__dirname, '../Frontend/reminders.html'));
 });
 
@@ -109,6 +117,166 @@ app.post('/api/projects', async (req, res) => {
             error: err.message
         });
 
+    } finally {
+        if (conn) conn.end();
+    }
+});
+
+app.delete("/api/projects/:id", async (req, res) => {
+    let conn;
+
+    try {
+        conn = await pool.getConnection();
+
+        const id = req.params.id;
+
+        await conn.query(
+            "DELETE FROM projects WHERE id = ?",
+            [id]
+        );
+
+        res.json({ success: true });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Delete failed" });
+
+    } finally {
+        if (conn) conn.end();
+    }
+});
+
+app.get("/api/projects/:id/tasks", async (req, res) => {
+    let conn;
+    try {
+        conn = await pool.getConnection();
+        const tasks = await conn.query(
+            `
+            SELECT *
+            FROM tasks
+            WHERE project_id = ?
+            ORDER BY created_at DESC
+            `,
+            [req.params.id]
+        );
+        res.json(tasks);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            error: "Database error"
+        });
+    } finally {
+        if (conn) conn.end();
+    }
+});
+
+app.post("/api/tasks", async (req, res) => {
+    let conn;
+    try {
+        conn = await pool.getConnection();
+        const {
+            project_id,
+            title,
+            description,
+            priority,
+            due_date
+        } = req.body;
+        await conn.query(
+            `
+            INSERT INTO tasks
+            (
+                project_id,
+                title,
+                description,
+                priority,
+                due_date
+            )
+            VALUES (?, ?, ?, ?, ?)
+            `,
+            [
+                project_id,
+                title,
+                description,
+                priority,
+                due_date
+            ]
+        );
+        res.json({
+            success: true
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            error: "Database error"
+        });
+    } finally {
+        if (conn) conn.end();
+    }
+});
+
+app.put("/api/tasks/:id", async (req, res) => {
+    let conn;
+    try {
+        conn = await pool.getConnection();
+        const {
+            title,
+            description,
+            completed,
+            priority,
+            due_date
+        } = req.body;
+        await conn.query(
+            `
+            UPDATE tasks
+            SET
+                title = ?,
+                description = ?,
+                completed = ?,
+                priority = ?,
+                due_date = ?
+            WHERE id = ?
+            `,
+            [
+                title,
+                description,
+                completed,
+                priority,
+                due_date,
+                req.params.id
+            ]
+        );
+        res.json({
+            success: true
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            error: "Database error"
+        });
+    } finally {
+        if (conn) conn.end();
+    }
+});
+
+app.delete("/api/tasks/:id", async (req, res) => {
+    let conn;
+    try {
+        conn = await pool.getConnection();
+        await conn.query(
+            `
+            DELETE FROM tasks
+            WHERE id = ?
+            `,
+            [req.params.id]
+        );
+        res.json({
+            success: true
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            error: "Database error"
+        });
     } finally {
         if (conn) conn.end();
     }

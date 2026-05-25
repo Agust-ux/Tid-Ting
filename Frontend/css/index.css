@@ -1,0 +1,361 @@
+
+/* =========================
+   BASE / GLOBAL
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background: var(--color2);
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+    background: var(--color3);
+    color: var(--color5);
+    padding: 20px;
+    text-align: center;
+    font-size: 28px;
+    font-weight: 600;
+    border-radius: 12px;
+    margin: 40px;
+    border: 1px solid #eee;
+}
+
+/* =========================
+   PROJECT GRID
+========================= */
+
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+    padding: 40px;
+}
+
+.project-card {
+    background: var(--color3);
+    padding: 25px;
+    border-radius: 16px;
+    transition: 0.25s;
+    position: relative;
+    border: 1px solid #eee;
+}
+
+.project-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.project-card.active {
+    border: 4px solid #1976d2;
+}
+
+.project-title {
+    font-size: 24px;
+    margin-bottom: 15px;
+    font-weight: 200;
+    color: #000;
+}
+
+/* =========================
+   TASK PREVIEW
+========================= */
+
+.task {
+    display: flex;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.task input {
+    margin-right: 10px;
+    width: 18px;
+    height: 18px;
+}
+
+.task-details {
+    font-size: 14px;
+}
+
+.task-time {
+    font-size: 12px;
+    color: #555;
+    margin-top: 2px;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.timeline-btn {
+    margin-top: 20px;
+    padding: 10px 18px;
+    background: #5c5c5c;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.timeline-btn:hover {
+    background: #333;
+}
+
+.add-project {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.add-project button {
+    padding: 12px 25px;
+    font-size: 16px;
+    border-radius: 25px;
+    border: none;
+    background: #1976d2;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.add-project button:hover {
+    background: #125ca1;
+}
+
+.details-btn {
+    margin-top: 12px;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    background: #1976d2;
+    color: white;
+}
+
+.details-btn:hover {
+    background: #125ca1;
+}
+
+/* =========================
+   PROJECT HEADER LAYOUT
+========================= */
+
+.project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* =========================
+   MENU
+========================= */
+
+.menu-wrapper {
+    position: relative;
+}
+
+.menu-btn {
+    background: none;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.menu {
+    position: absolute;
+    right: 0;
+    top: 30px;
+
+    background: var(--color3);
+    border-radius: 14px;
+
+    border: 1px solid rgba(0,0,0,0.08);
+
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+
+    display: flex;
+    flex-direction: column;
+
+    min-width: 160px;
+
+    overflow: hidden;
+}
+
+.menu-item {
+    padding: 10px 12px;
+    border: none;
+    background: none;
+    text-align: left;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.2s ease;
+}
+
+.menu-item:hover {
+    background: rgba(0,0,0,0.05);
+}
+
+.menu-item.delete {
+    color: #7d2982;
+}
+
+.menu-item.delete:hover {
+    background: rgba(125, 41, 130, 0.1);
+}
+
+/* =========================
+   MODAL SYSTEM (UNIFIED)
+========================= */
+
+.modal {
+    position: fixed;
+    inset: 0;
+
+    background: rgba(0,0,0,0.45);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 999;
+
+    backdrop-filter: blur(6px);
+
+    animation: fadeIn 0.15s ease-out;
+}
+
+.hidden {
+    display: none !important;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal-content {
+    width: 420px;
+
+    background: var(--color3);
+
+    border-radius: 22px;
+
+    padding: 26px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 14px;
+
+    box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+
+    border: 1px solid rgba(0,0,0,0.05);
+
+    transform: scale(0.96);
+    animation: popIn 0.18s ease-out forwards;
+}
+
+@keyframes popIn {
+    to { transform: scale(1); }
+}
+
+.modal-content h2 {
+    margin: 0 0 6px;
+    font-size: 22px;
+    font-weight: 800;
+}
+
+/* =========================
+   INPUTS
+========================= */
+
+.modal-content input,
+.modal-content textarea,
+.modal-content select {
+    width: 100%;
+    padding: 12px 14px;
+
+    border-radius: 14px;
+    border: 1px solid #e7e7e7;
+
+    background: #fafafa;
+
+    font-size: 14px;
+    font-family: inherit;
+
+    outline: none;
+
+    transition: 0.2s ease;
+}
+
+.modal-content input:focus,
+.modal-content textarea:focus,
+.modal-content select:focus {
+    border-color: var(--color5);
+    background: white;
+
+    box-shadow: 0 0 0 4px rgba(125, 41, 130, 0.12);
+}
+
+.modal-content textarea {
+    min-height: 110px;
+    resize: vertical;
+}
+
+/* =========================
+   MODAL BUTTONS
+========================= */
+
+.modal-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 6px;
+}
+
+.modal-buttons button {
+    flex: 1;
+
+    padding: 12px 14px;
+
+    border: none;
+    border-radius: 14px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+/* SAVE */
+#saveProjectBtn {
+    background: var(--color1);
+    color: #fff;
+}
+
+#saveProjectBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(128, 223, 109, 0.35);
+}
+
+/* CANCEL */
+#closeModalBtn {
+    background: rgba(0,0,0,0.06);
+    color: var(--text);
+}
+
+#closeModalBtn:hover {
+    background: rgba(0,0,0,0.12);
+    transform: translateY(-1px);
+}

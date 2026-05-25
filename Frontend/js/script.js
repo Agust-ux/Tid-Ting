@@ -151,6 +151,13 @@ async function loadProjects() {
                     console.error(err);
                 }
             });
+            const detailsBtn =
+                card.querySelector(".details-btn");
+            detailsBtn.addEventListener("click", () => {
+                window.location.href =
+                    `project.html?id=${project.id}`;
+            });
+            projectGrid.appendChild(card);
             projectGrid.appendChild(card);
         });
     } catch (err) {

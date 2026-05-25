@@ -1,9 +1,10 @@
 :root {
-    --color1: #74ca63;  
+    --color1: #1a9b00;  
     --color2: #f4f4f4;   
     --color3: #ffffff;  
     --color4: #F8961E;   
     --color5: #7d2982;  
+    --color6: #ff6fa6;
 }
 
 @font-face {
@@ -62,8 +63,8 @@ nav h1 {
 
     font-family: Italianno;
     font-size: 68px;
-    font-weight: 400;
-    letter-spacing: 2px;
+    font-weight: 500;
+    letter-spacing: 7px;
 
     color: var(--color5);
 

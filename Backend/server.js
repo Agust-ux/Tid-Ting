@@ -1,327 +1,192 @@
-//Utgangspunkt fra https://www.youtube.com/watch?v=Hej48pi_lOc
-const express = require('express');
-const path = require('path');
-const mariadb = require('mariadb');
-require('dotenv').config();
+// =========================
+// SERVER SETUP
+// =========================
+const express = require("express");
+const path = require("path");
+const mariadb = require("mariadb");
+require("dotenv").config();
 
 const app = express();
-
 app.use(express.json());
 
+// =========================
+// DATABASE POOL
+// =========================
 const pool = mariadb.createPool({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASS,
     database: process.env.DB_DATABASE,
-    connectionLimit: parseInt(process.env.DB_LIMIT) || 5
+    connectionLimit: 5
 });
 
+// =========================
+// STATIC FRONTEND
+// =========================
 app.use(express.static(path.join(__dirname, "../Frontend")));
 
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../Frontend/index.html'));
-});
+// =========================
+// HELPERS
+// =========================
+async function getConn() {
+    return await pool.getConnection();
+}
 
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../Frontend/prosjekt.html'));
-});
-
-app.get('Images/Logo.png');
-
-app.get('/calendar', (req, res) => {
-    res.sendFile(path.join(__dirname, '../Frontend/calendar.html'));
-});
-
-app.get('/reminders', (req, res) => {
-    res.sendFile(path.join(__dirname, '../Frontend/reminders.html'));
-});
-
-app.use(express.static(__dirname));
-
-app.listen(3007, () => {
-    console.log('Server running on http://localhost:3007');
-});
-
-
-//DISSE ER TEST MELDINGER
-app.get('/api/test', (req, res) => {
-    res.json({ message: "API is working" });
-});
-
-app.get('/api/db-test', async (req, res) => {
+// =========================
+// PROJECT ROUTES
+// =========================
+app.get("/api/projects", async (req, res) => {
     let conn;
     try {
-        conn = await pool.getConnection();
-        const result = await conn.query("SELECT 1 AS ok");
-        res.json(result);
+        conn = await getConn();
+        const data = await conn.query("SELECT * FROM projects ORDER BY id DESC");
+        res.json(data);
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: "DB failed" });
+        res.status(500).json({ error: "Failed to fetch projects" });
     } finally {
         if (conn) conn.end();
     }
 });
 
-//HER BEGYNNER API
-
-//Prosjekter endpoints
-app.get('/api/projects', async (req, res) => {
+app.post("/api/projects", async (req, res) => {
     let conn;
-    try {
-        conn = await pool.getConnection();
-        const rows = await conn.query(`
-            SELECT * FROM projects
-            ORDER BY id DESC
-        `);
-        res.json(rows);
-
-    } catch (err) {
-        res.status(500).json({ error: "DB error" });
-    } finally {
-        if (conn) conn.end();
-    }
-});
-
-app.post('/api/projects', async (req, res) => {
-    let conn;
-
     try {
         const { title, description, color, start_date, end_date } = req.body;
-
-        // TEMP: hardcoded user (because no login system yet)
-        const user_id = 1;
-
-        // basic validation (prevents empty inserts)
-        if (!title || !start_date || !end_date) {
-            return res.status(400).json({ error: "Missing required fields" });
-        }
-
-        conn = await pool.getConnection();
+        conn = await getConn();
 
         const result = await conn.query(
-            `INSERT INTO projects
-            (user_id, title, description, color, start_date, end_date)
-            VALUES (?, ?, ?, ?, ?, ?)`,
-            [user_id, title, description, color, start_date, end_date]
+            `INSERT INTO projects (user_id, title, description, color, start_date, end_date)
+             VALUES (1, ?, ?, ?, ?, ?)`,
+            [title, description, color, start_date, end_date]
         );
 
-        res.json({
-            message: "Project created",
-            insertId: Number(result.insertId)
-        });
-
+        res.json({ success: true, id: result.insertId });
     } catch (err) {
-        console.error("DB INSERT ERROR:", err);
-
-        res.status(500).json({
-            error: err.message
-        });
-
+        res.status(500).json({ error: "Project creation failed" });
     } finally {
         if (conn) conn.end();
     }
 });
 
-app.put("/api/projects/:id", async (req, res) => {
-    let conn;
-    try {
-        conn = await pool.getConnection();
-        const {
-            title,
-            description,
-            color,
-            start_date,
-            end_date
-        } = req.body;
-        await conn.query(
-            `
-            UPDATE projects
-            SET
-                title = ?,
-                description = ?,
-                color = ?,
-                start_date = ?,
-                end_date = ?
-            WHERE id = ?
-            `,
-            [
-                title,
-                description,
-                color,
-                start_date,
-                end_date,
-                req.params.id
-            ]
-        );
-        res.json({
-            success: true
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({
-            error: "Update failed"
-        });
-    } finally {
-        if (conn) conn.end();
-    }
-});
+// =========================
+// TASK ROUTES
+// =========================
 
-app.delete("/api/projects/:id", async (req, res) => {
-    let conn;
-
-    try {
-        conn = await pool.getConnection();
-
-        const id = req.params.id;
-
-        await conn.query(
-            "DELETE FROM projects WHERE id = ?",
-            [id]
-        );
-
-        res.json({ success: true });
-
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: "Delete failed" });
-
-    } finally {
-        if (conn) conn.end();
-    }
-});
-
+// GET tasks
 app.get("/api/projects/:id/tasks", async (req, res) => {
     let conn;
     try {
-        conn = await pool.getConnection();
+        conn = await getConn();
+
         const tasks = await conn.query(
-            `
-            SELECT *
-            FROM tasks
-            WHERE project_id = ?
-            ORDER BY created_at DESC
-            `,
+            `SELECT * FROM tasks 
+             WHERE project_id = ? 
+             ORDER BY completed ASC, created_at DESC`,
             [req.params.id]
         );
+
         res.json(tasks);
     } catch (err) {
-        console.error(err);
-        res.status(500).json({
-            error: "Database error"
-        });
+        res.status(500).json({ error: "Task fetch failed" });
     } finally {
         if (conn) conn.end();
     }
 });
 
+// CREATE task
 app.post("/api/tasks", async (req, res) => {
     let conn;
     try {
-        conn = await pool.getConnection();
-        const {
-            project_id,
-            title,
-            description,
-            priority,
-            due_date
-        } = req.body;
+        const { project_id, title, description, priority, due_date } = req.body;
+
+        conn = await getConn();
+
         await conn.query(
-            `
-            INSERT INTO tasks
-            (
-                project_id,
-                title,
-                description,
-                priority,
-                due_date
-            )
-            VALUES (?, ?, ?, ?, ?)
-            `,
-            [
-                project_id,
-                title,
-                description,
-                priority,
-                due_date
-            ]
+            `INSERT INTO tasks 
+             (project_id, title, description, priority, due_date, completed)
+             VALUES (?, ?, ?, ?, ?, 0)`,
+            [project_id, title, description, priority, due_date || null]
         );
-        res.json({
-            success: true
-        });
+
+        res.json({ success: true });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({
-            error: "Database error"
-        });
+        res.status(500).json({ error: "Task creation failed" });
     } finally {
         if (conn) conn.end();
     }
 });
 
+// UPDATE task
 app.put("/api/tasks/:id", async (req, res) => {
     let conn;
     try {
-        conn = await pool.getConnection();
-        const {
-            title,
-            description,
-            completed,
-            priority,
-            due_date
-        } = req.body;
+        let { title, description, priority, due_date } = req.body;
+
+        if (!title) title = "";
+        if (!description) description = "";
+        if (!["low", "medium", "high"].includes(priority)) priority = "medium";
+
+        if (due_date && due_date.includes("T")) {
+            due_date = due_date.replace("T", " ") + ":00";
+        } else if (!due_date) {
+            due_date = null;
+        }
+
+        conn = await getConn();
+
         await conn.query(
-            `
-            UPDATE tasks
-            SET
-                title = ?,
-                description = ?,
-                completed = ?,
-                priority = ?,
-                due_date = ?
-            WHERE id = ?
-            `,
-            [
-                title,
-                description,
-                completed,
-                priority,
-                due_date,
-                req.params.id
-            ]
+            `UPDATE tasks 
+             SET title=?, description=?, priority=?, due_date=? 
+             WHERE id=?`,
+            [title, description, priority, due_date, req.params.id]
         );
-        res.json({
-            success: true
-        });
+
+        res.json({ success: true });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({
-            error: "Database error"
-        });
+        res.status(500).json({ error: "Task update failed" });
     } finally {
         if (conn) conn.end();
     }
 });
 
+// DELETE task
 app.delete("/api/tasks/:id", async (req, res) => {
     let conn;
     try {
-        conn = await pool.getConnection();
-        await conn.query(
-            `
-            DELETE FROM tasks
-            WHERE id = ?
-            `,
-            [req.params.id]
-        );
-        res.json({
-            success: true
-        });
+        conn = await getConn();
+        await conn.query("DELETE FROM tasks WHERE id=?", [req.params.id]);
+        res.json({ success: true });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({
-            error: "Database error"
-        });
+        res.status(500).json({ error: "Task delete failed" });
     } finally {
         if (conn) conn.end();
     }
+});
+
+// TOGGLE DONE
+app.patch("/api/tasks/:id/toggle-done", async (req, res) => {
+    let conn;
+    try {
+        conn = await getConn();
+
+        await conn.query(
+            `UPDATE tasks 
+             SET completed = NOT COALESCE(completed, 0)
+             WHERE id=?`,
+            [req.params.id]
+        );
+
+        res.json({ success: true });
+    } catch (err) {
+        res.status(500).json({ error: "Toggle failed" });
+    } finally {
+        if (conn) conn.end();
+    }
+});
+
+// =========================
+// START SERVER
+// =========================
+app.listen(3007, () => {
+    console.log("Server running on http://localhost:3007");
 });

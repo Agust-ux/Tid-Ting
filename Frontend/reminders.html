@@ -5,6 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tid & Ting</title>
+<link rel="stylesheet" href="css/style.css">
 
 <style>
 *{
@@ -12,101 +13,6 @@
     padding: 0;
     font-family: 'Poppins', sans-serif;
     box-sizing: border-box;
-}
-
-:root {
---color1: #80df6d;
---color2: #d2ffcf;
---color3: #ffede5;
---color4: #fd845c;
---color5: #7d2982;
-}
-
-@font-face {
-    font-family: "Italianno";
-    src: url(Font/Italianno-Regular.ttf);
-
-}
-
-@font-face {
-    font-family: "Inter";
-    src: url(Font/Inter-VariableFont_opsz\,wght.ttf);
-    
-}
-
-@font-face {
-    font-family: "ROME";
-    src: url(Font/Relationship\ of\ mélodrame.ttf);
-    
-}
-
-nav {
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 35px;
-    background-color: #fff;
-    box-shadow: 0 6px 40px rgba(0, 0, 0, 0.4);
-    margin: 0;
-}
-
-nav img{
-    height: 130px;
-    width: 130px;
-    border: solid 2px #000;
-    border-radius: 40px;
-}
-
-nav h1 {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    font-family: Italianno;
-    font-size: 70px;
-    font-weight: 500;
-    letter-spacing: 5px;
-    color: var(--color5);
-}
-
-nav button{
-    padding: 5px 20px;
-    background-color: #fff;
-    border: none;
-    border-bottom: solid 2px var(--color4);
-    font-family: Inter;
-    font-size: 20px;
-    margin: 10px;
-    font-weight: 300;
-    color: #000;
-    /* border-radius: 10px; */
-}
-
-nav button:hover{
-    background-color: var(--color4);
-    color: #fff;
-    transition: background-color 0.4s ease-in-out, width 0.5s ease-in-out; 
-    border-radius: 10px;
-}
-
-/* ONLY logo + title links */
-nav .logo-link,
-nav .title-link {
-    text-decoration: none;
-    color: inherit;
-    display: flex;
-    align-items: center;
-}
-
-/* image fix */
-nav img {
-    display: block;
-}
-
-/* title fix */
-nav .title-link h1 {
-    margin: 0;
-    line-height: 1;
 }
 
 body{
@@ -239,11 +145,11 @@ ul li span:hover{
             </a>
 
             <a href="index.html" class="title-link">
-                <h1>Tid <br> & Ting</h1>
+                <h1>Tid & Ting</h1>
             </a>
         <div id="button_holders">
-            <a href="calendar.html"><button>Kalendar</button></a>
-            <a href="reminders.html"><button>Påminnelser</button></a>
+            <a href="calendar.html"><button><b>Kalendar</b></button></a>
+            <a href="reminders.html"><button><b>Påminnelser</b></button></a>
         </div>
     </nav>
 

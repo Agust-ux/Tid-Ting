@@ -1,25 +1,116 @@
 :root {
-    --color1: #80df6d;
-    --color2: #d2ffcf;
-    --color3: #ffede5;
-    --color4: #fd845c;
-    --color5: #7d2982;
-    }
+    --color1: #74ca63;  
+    --color2: #f4f4f4;   
+    --color3: #ffffff;  
+    --color4: #F8961E;   
+    --color5: #7d2982;  
+}
 
 @font-face {
     font-family: "Italianno";
-    src: url(Font/Italianno-Regular.ttf);
-
+    src: url("../Font/Italianno-Regular.ttf");
 }
 
 @font-face {
     font-family: "Inter";
-    src: url(Font/Inter-VariableFont_opsz\,wght.ttf);
-    
+    src: url("../Font/Inter-VariableFont_opsz\,wght.ttf");
 }
 
 @font-face {
     font-family: "ROME";
-    src: url(Font/Relationship\ of\ mélodrame.ttf);
-    
+    src: url("../Font/Relationship\ of\ mélodrame.ttf");
+}
+
+
+nav {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 26px 36px;
+
+    background: rgba(255, 255, 255, 0.82);
+    backdrop-filter: blur(16px);
+
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    min-height: 180px;
+}
+
+
+nav img {
+    height: 130px;
+    width: 130px;
+
+    border-radius: 40px;
+    border: 2px solid var(--color5);
+
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+
+    transition: transform 0.2s ease;
+}
+
+nav h1 {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+
+    font-family: Italianno;
+    font-size: 68px;
+    font-weight: 400;
+    letter-spacing: 2px;
+
+    color: var(--color5);
+
+    margin: 0;
+
+    text-shadow: 0 3px 14px rgba(125, 41, 130, 0.10);
+}
+
+
+nav .logo-link,
+nav .title-link {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+}
+
+
+#button_holders {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+
+nav button {
+    padding: 6px 18px;
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid rgba(125, 41, 130, 0.35);
+    font-family: Inter;
+    font-size: 20px;
+    font-weight: 300;
+    color: #333;
+    margin: 8px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+nav button:hover {
+    background-color: rgba(125, 41, 130, 0.10);
+    color: var(--color5);
+    border-bottom: 2px solid var(--color5);
+    border-radius: 10px;
+    transform: translateY(-1px);
+}
+
+nav button:active {
+    transform: translateY(0px);
 }

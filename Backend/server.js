@@ -122,6 +122,50 @@ app.post('/api/projects', async (req, res) => {
     }
 });
 
+app.put("/api/projects/:id", async (req, res) => {
+    let conn;
+    try {
+        conn = await pool.getConnection();
+        const {
+            title,
+            description,
+            color,
+            start_date,
+            end_date
+        } = req.body;
+        await conn.query(
+            `
+            UPDATE projects
+            SET
+                title = ?,
+                description = ?,
+                color = ?,
+                start_date = ?,
+                end_date = ?
+            WHERE id = ?
+            `,
+            [
+                title,
+                description,
+                color,
+                start_date,
+                end_date,
+                req.params.id
+            ]
+        );
+        res.json({
+            success: true
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            error: "Update failed"
+        });
+    } finally {
+        if (conn) conn.end();
+    }
+});
+
 app.delete("/api/projects/:id", async (req, res) => {
     let conn;
 

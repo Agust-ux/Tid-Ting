@@ -16,87 +16,19 @@
 
     body{
         margin: 0;
-    }
-
-nav {
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 35px;
-    background-color: #fff;
-    box-shadow: 0 6px 40px rgba(0, 0, 0, 0.4);
-    margin: 0;
-}
-
-nav img{
-    height: 130px;
-    width: 130px;
-    border: solid 2px #000;
-    border-radius: 40px;
-}
-
-nav h1 {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    font-family: Italianno;
-    font-size: 70px;
-    font-weight: 500;
-    letter-spacing: 5px;
-    color: var(--color5);
-}
-
-nav button{
-    padding: 5px 20px;
-    background-color: #fff;
-    border: none;
-    border-bottom: solid 2px var(--color4);
-    font-family: Inter;
-    font-size: 20px;
-    margin: 10px;
-    font-weight: 300;
-    color: #000;
-}
-
-nav button:hover{
-    background-color: var(--color4);
-    color: #fff;
-    transition: background-color 0.4s ease-in-out, width 0.5s ease-in-out; 
-    border-radius: 10px;
-}
-
-nav .logo-link,
-nav .title-link {
-    text-decoration: none;
-    color: inherit;
-    display: flex;
-    align-items: center;
-}
-
-nav img {
-    display: block;
-}
-
-nav .title-link h1 {
-    margin: 0;
-    line-height: 1;
-}
-
-    body {
-        background: #ffffff;
-        margin: 0;
+        background: var(--color2);
     }
 
     .header {
-        background: #e6e6e6;
+        background: var(--color3);
+        color: var(--color5);
         padding: 20px;
         text-align: center;
         font-size: 28px;
-        font-weight: 500;
-        border-radius: 10px;
-        margin-bottom: 40px;
+        font-weight: 600;
+        border-radius: 12px;
         margin: 40px;
+        border: 1px solid #eee;
     }
 
     .project-grid {
@@ -107,16 +39,17 @@ nav .title-link h1 {
     }
 
     .project-card {
-        background: #e6e6e6;
-        padding: 30px;
-        border-radius: 20px;
-        transition: 0.3s;
+        background: var(--color3);
+        padding: 25px;
+        border-radius: 16px;
+        transition: 0.25s;
         position: relative;
+        border: 1px solid #eee;
     }
 
     .project-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        transform: translateY(-4px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.08);
     }
 
     .project-card.active {
@@ -124,8 +57,9 @@ nav .title-link h1 {
     }
 
     .project-title {
-        font-size: 26px;
-        margin-bottom: 20px;
+        font-size: 24px;
+        margin-bottom: 15px;
+        color: var(--color5);
     }
 
     .task {
@@ -305,11 +239,11 @@ nav .title-link h1 {
             </a>
 
             <a href="index.html" class="title-link">
-                <h1>Tid <br> & Ting</h1>
+                <h1>Tid & Ting</h1>
             </a>
         <div id="button_holders">
-            <a href="calendar.html"><button>Kalendar</button></a>
-            <a href="reminders.html"><button>Påminnelser</button></a>
+            <a href="calendar.html"><button><b>Kalendar</b></button></a>
+            <a href="reminders.html"><button><b>Påminnelser</b></button></a>
         </div>
     </nav>
 <br>
@@ -329,7 +263,7 @@ nav .title-link h1 {
 
 <div class="modal hidden" id="projectModal">
     <div class="modal-content">
-        <h2>Nytt prosjekt</h2>
+        <h2 id="modalTitle">Nytt prosjekt</h2>
 
         <input
             type="text"
@@ -351,6 +285,15 @@ nav .title-link h1 {
             type="date"
             id="projectEnd"
         >
+
+        <select id="projectColor">
+            <option value="#4F8EF7">Blue</option>
+            <option value="#6BCB77">Green</option>
+            <option value="#FFD166">Yellow</option>
+            <option value="#F78C6B">Coral</option>
+            <option value="#B388EB">Lavender</option>
+            <option value="#56CFE1">Cyan</option>
+        </select>
 
         <div class="modal-buttons">
             <button id="saveProjectBtn">

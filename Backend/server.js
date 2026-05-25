@@ -243,6 +243,30 @@ app.patch("/api/tasks/:id/toggle-done", async (req, res) => {
 });
 
 // =========================
+// DELETE PROJECT
+// =========================
+app.delete("/api/projects/:id", async (req, res) => {
+    let conn;
+
+    try {
+        conn = await getConn();
+
+        // optional safety: delete tasks first
+        await conn.query("DELETE FROM tasks WHERE project_id=?", [req.params.id]);
+
+        await conn.query("DELETE FROM projects WHERE id=?", [req.params.id]);
+
+        res.json({ success: true });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Project delete failed" });
+    } finally {
+        if (conn) conn.end();
+    }
+});
+
+// =========================
 // START SERVER
 // =========================
 app.listen(3007, () => {

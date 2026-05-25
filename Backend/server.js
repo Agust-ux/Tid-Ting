@@ -35,36 +35,89 @@ async function getConn() {
 // =========================
 // PROJECT ROUTES
 // =========================
+
+// GET all projects
 app.get("/api/projects", async (req, res) => {
     let conn;
     try {
         conn = await getConn();
-        const data = await conn.query("SELECT * FROM projects ORDER BY id DESC");
+        const data = await conn.query(
+            "SELECT * FROM projects ORDER BY id DESC"
+        );
         res.json(data);
     } catch (err) {
+        console.error(err);
         res.status(500).json({ error: "Failed to fetch projects" });
     } finally {
-        if (conn) conn.end();
+        if (conn) conn.release();
     }
 });
 
+// CREATE project
 app.post("/api/projects", async (req, res) => {
     let conn;
     try {
         const { title, description, color, start_date, end_date } = req.body;
+
         conn = await getConn();
 
         const result = await conn.query(
-            `INSERT INTO projects (user_id, title, description, color, start_date, end_date)
-             VALUES (1, ?, ?, ?, ?, ?)`,
+            `INSERT INTO projects 
+            (user_id, title, description, color, start_date, end_date)
+            VALUES (1, ?, ?, ?, ?, ?)`,
             [title, description, color, start_date, end_date]
         );
 
         res.json({ success: true, id: result.insertId });
     } catch (err) {
+        console.error(err);
         res.status(500).json({ error: "Project creation failed" });
     } finally {
-        if (conn) conn.end();
+        if (conn) conn.release();
+    }
+});
+
+// UPDATE project
+app.put("/api/projects/:id", async (req, res) => {
+    let conn;
+    try {
+        const { title, description, color, start_date, end_date } = req.body;
+
+        conn = await getConn();
+
+        await conn.query(
+            `UPDATE projects 
+             SET title=?, description=?, color=?, start_date=?, end_date=? 
+             WHERE id=?`,
+            [title, description, color, start_date, end_date, req.params.id]
+        );
+
+        res.json({ success: true });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Project update failed" });
+    } finally {
+        if (conn) conn.release();
+    }
+});
+
+// ❗ FIXED: DELETE project (THIS WAS MISSING / BROKEN BEFORE)
+app.delete("/api/projects/:id", async (req, res) => {
+    let conn;
+    try {
+        conn = await getConn();
+
+        await conn.query(
+            "DELETE FROM projects WHERE id=?",
+            [req.params.id]
+        );
+
+        res.json({ success: true });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Project delete failed" });
+    } finally {
+        if (conn) conn.release();
     }
 });
 
@@ -72,7 +125,7 @@ app.post("/api/projects", async (req, res) => {
 // TASK ROUTES
 // =========================
 
-// GET tasks
+// GET tasks for project
 app.get("/api/projects/:id/tasks", async (req, res) => {
     let conn;
     try {
@@ -89,7 +142,7 @@ app.get("/api/projects/:id/tasks", async (req, res) => {
     } catch (err) {
         res.status(500).json({ error: "Task fetch failed" });
     } finally {
-        if (conn) conn.end();
+        if (conn) conn.release();
     }
 });
 
@@ -112,7 +165,7 @@ app.post("/api/tasks", async (req, res) => {
     } catch (err) {
         res.status(500).json({ error: "Task creation failed" });
     } finally {
-        if (conn) conn.end();
+        if (conn) conn.release();
     }
 });
 
@@ -145,7 +198,7 @@ app.put("/api/tasks/:id", async (req, res) => {
     } catch (err) {
         res.status(500).json({ error: "Task update failed" });
     } finally {
-        if (conn) conn.end();
+        if (conn) conn.release();
     }
 });
 
@@ -154,12 +207,17 @@ app.delete("/api/tasks/:id", async (req, res) => {
     let conn;
     try {
         conn = await getConn();
-        await conn.query("DELETE FROM tasks WHERE id=?", [req.params.id]);
+
+        await conn.query(
+            "DELETE FROM tasks WHERE id=?",
+            [req.params.id]
+        );
+
         res.json({ success: true });
     } catch (err) {
         res.status(500).json({ error: "Task delete failed" });
     } finally {
-        if (conn) conn.end();
+        if (conn) conn.release();
     }
 });
 
@@ -180,7 +238,7 @@ app.patch("/api/tasks/:id/toggle-done", async (req, res) => {
     } catch (err) {
         res.status(500).json({ error: "Toggle failed" });
     } finally {
-        if (conn) conn.end();
+        if (conn) conn.release();
     }
 });
 

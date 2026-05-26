@@ -266,6 +266,151 @@ app.delete("/api/projects/:id", async (req, res) => {
     }
 });
 
+app.post("/api/reminders", async (req, res) => {
+
+    let conn;
+
+    try {
+
+        const {
+            title,
+            remind_at
+        } = req.body;
+
+        conn = await getConn();
+
+        const result = await conn.query(
+            `INSERT INTO reminders
+             (user_id, title, remind_at)
+             VALUES (1, ?, ?)`,
+            [
+                title,
+                remind_at
+            ]
+        );
+
+        res.json({
+            success: true,
+            id: Number(result.insertId)
+        });
+
+    } catch (err) {
+
+        console.error(err);
+
+        res.status(500).json({
+            error: "Failed to create reminder"
+        });
+
+    } finally {
+
+        if (conn) conn.end();
+    }
+});
+
+app.get("/api/reminders", async (req, res) => {
+
+    let conn;
+
+    try {
+
+        conn = await getConn();
+
+        const reminders = await conn.query(
+            `SELECT *
+             FROM reminders
+             ORDER BY completed ASC,
+                      remind_at ASC`
+        );
+
+        const cleaned = reminders.map(r => ({
+            id: Number(r.id),
+            title: r.title,
+            remind_at: r.remind_at,
+            completed: Boolean(r.completed)
+        }));
+
+        res.json(cleaned);
+
+    } catch (err) {
+
+        console.error(err);
+
+        res.status(500).json({
+            error: "Failed to fetch reminders"
+        });
+
+    } finally {
+
+        if (conn) conn.end();
+    }
+});
+
+app.patch("/api/reminders/:id/toggle", async (req, res) => {
+
+    let conn;
+
+    try {
+
+        conn = await getConn();
+
+        await conn.query(
+            `UPDATE reminders
+             SET completed = NOT completed
+             WHERE id=?`,
+            [req.params.id]
+        );
+
+        res.json({
+            success: true
+        });
+
+    } catch (err) {
+
+        console.error(err);
+
+        res.status(500).json({
+            error: "Toggle failed"
+        });
+
+    } finally {
+
+        if (conn) conn.end();
+    }
+});
+
+app.delete("/api/reminders/:id", async (req, res) => {
+
+    let conn;
+
+    try {
+
+        conn = await getConn();
+
+        await conn.query(
+            `DELETE FROM reminders
+             WHERE id=?`,
+            [req.params.id]
+        );
+
+        res.json({
+            success: true
+        });
+
+    } catch (err) {
+
+        console.error(err);
+
+        res.status(500).json({
+            error: "Delete failed"
+        });
+
+    } finally {
+
+        if (conn) conn.end();
+    }
+});
+
 // =========================
 // START SERVER
 // =========================

@@ -1,238 +1,63 @@
-<!--DETTE ER STANDARD HVORDAN EN TO-DO LISTE SER UT-->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="no">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tid & Ting</title>
+
 <link rel="stylesheet" href="css/style.css">
-
-<style>
-*{
-    margin: 0;
-    padding: 0;
-    font-family: 'Poppins', sans-serif;
-    box-sizing: border-box;
-}
-
-body{
-    background: #e6e6e6;
-    justify-content: center;
-}
-
-.container{
-    width: 100%;
-    max-width: 540px;
-    margin: 60px auto;
-}
-
-.todo-nettside{
-    background: #fff;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-}
-
-h2{
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 20px;
-}
-
-.row{
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-}
-
-input{
-    flex: 1;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    outline: none;
-}
-
-input:focus{
-    border-color: #4a6cf7;
-}
-
-/* DU HAR NAV-BUTTONS, SÅ VI UNNGÅR KRASJ */
-.todo-nettside button{
-    padding: 12px 20px;
-    border: none;
-    border-radius: 10px;
-    background: #4a6cf7;
-    color: white;
-    cursor: pointer;
-    font-weight: 600;
-}
-
-.todo-nettside button:hover{
-    background: #3a57d6;
-}
-
-/* LISTE */
-ul li{
-    list-style: none;
-    font-size: 17px;
-    padding: 12px 40px 12px 50px;
-    position: relative;
-    cursor: pointer;
-    border-radius: 10px;
-    transition: 0.2s;
-}
-
-ul li:hover{
-    background: #f3f3f3;
-}
-
-/* UNCHECKED (BEHOLDER BILDE) */
-ul li::before{
-    content: '';
-    position: absolute;
-    height: 28px;
-    width: 28px;
-    left: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    background-image: url("Images/Unchecked.png");
-    background-size: cover;
-}
-
-/* CHECKED */
-ul li.checked{
-    color: #888;
-    text-decoration: line-through;
-}
-
-ul li.checked::before{
-    background-image: url("Images/Checked.png");
-}
-
-/* DELETE */
-ul li span{
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 30px;
-    height: 30px;
-    display: grid;
-    place-items: center;
-    border-radius: 50%;
-    color: #888;
-}
-
-ul li span:hover{
-    background: #ddd;
-}
-
-/* EMPTY STATE */
-.empty{
-    text-align: center;
-    color: #888;
-    padding: 15px;
-}
-</style>
+<link rel="stylesheet" href="css/reminders.css">
 </head>
 
 <body>
-        <nav>
-            <a href="index.html" class="logo-link">
-                <img src="Images/Logo.png" alt="Nettside logo">
-            </a>
 
-            <a href="index.html" class="title-link">
-                <h1>Tid & Ting</h1>
-            </a>
-        <div id="button_holders">
-            <a href="calendar.html"><button><b>Kalendar</b></button></a>
-            <a href="reminders.html"><button><b>Påminnelser</b></button></a>
-        </div>
-    </nav>
+<nav>
+    <a href="index.html" class="logo-link">
+        <img src="Images/Logo.png" alt="Nettside logo">
+    </a>
+
+    <a href="index.html" class="title-link">
+        <h1>Tid & Ting</h1>
+    </a>
+
+    <div id="button_holders">
+        <a href="calendar.html">
+            <button><b>Kalendar</b></button>
+        </a>
+
+        <a href="reminders.html">
+            <button><b>Påminnelser</b></button>
+        </a>
+    </div>
+</nav>
 
 <div class="container">
+
     <div class="todo-nettside">
+
         <h2>To-Do liste 📝</h2>
 
         <div class="row">
-            <input type="text" id="input-box" placeholder="Skriv oppgave">
-            <button id="addBtn">Legg til</button>
+
+            <input
+                type="text"
+                id="input-box"
+                placeholder="Skriv oppgave"
+            >
+
+            <button id="addBtn">
+                Legg til
+            </button>
+
         </div>
 
         <ul id="list-container"></ul>
+
     </div>
+
 </div>
 
-<script>
-const inputBox = document.getElementById("input-box");
-const listContainer = document.getElementById("list-container");
-const addBtn = document.getElementById("addBtn");
-
-function updateEmpty(){
-    if(listContainer.children.length === 0){
-        listContainer.innerHTML = `<p class="empty">Ingen oppgaver enda ✨</p>`;
-    }
-}
-
-function addTask(){
-    const value = inputBox.value.trim();
-
-    if(value === ''){
-        alert('Feltet kan ikke stå tomt');
-        return;
-    }
-
-    // fjern empty tekst hvis den finnes
-    const empty = document.querySelector(".empty");
-    if(empty) empty.remove();
-
-    const li = document.createElement("li");
-    li.textContent = value;
-
-    const span = document.createElement("span");
-    span.innerHTML = "\u00d7";
-
-    li.appendChild(span);
-    listContainer.appendChild(li);
-
-    inputBox.value = "";
-    saveData();
-}
-
-addBtn.addEventListener("click", addTask);
-
-inputBox.addEventListener("keydown", function(e){
-    if(e.key === "Enter"){
-        addTask();
-    }
-});
-
-listContainer.addEventListener("click", function(e){
-    if(e.target.tagName === "LI"){
-        e.target.classList.toggle("checked");
-        saveData();
-    }
-    else if(e.target.tagName === "SPAN"){
-        e.target.parentElement.remove();
-        saveData();
-        updateEmpty();
-    }
-});
-
-function saveData(){
-    localStorage.setItem("data", listContainer.innerHTML);
-}
-
-function showTask(){
-    listContainer.innerHTML = localStorage.getItem("data") || "";
-    updateEmpty();
-}
-
-showTask();
-</script>
+<script src="js/reminders.js"></script>
 
 </body>
 </html>

@@ -1,5 +1,4 @@
-
-  :root {
+:root {
   --text: #1f1f1f;
   --muted: rgba(0,0,0,0.5);
   --shadow: 0 10px 30px rgba(0,0,0,0.08);
@@ -12,24 +11,16 @@
 
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-family: system-ui;
   background: var(--color2);
   color: var(--text);
 }
-
-/* =========================
-   LAYOUT
-========================= */
 
 .app {
   max-width: 1200px;
   margin: 0 auto;
   padding: 24px;
 }
-
-/* =========================
-   TOP HEADER
-========================= */
 
 .heading {
   display: flex;
@@ -40,164 +31,99 @@ body {
   margin-bottom: 18px;
 
   background: var(--color3);
+
   border-radius: var(--radius);
   box-shadow: var(--shadow);
 }
 
-/* MONTH AREA */
 #monthInfo {
   display: flex;
   align-items: center;
   gap: 16px;
 }
 
-/* MONTH TEXT */
 #monthLabel {
   font-size: 50px;
-  font-weight: 800;
-  letter-spacing: 0.5px;
   margin: 0;
 }
 
-/* ARROW BUTTONS */
 #prevMonth,
 #nextMonth {
+
   width: 44px;
   height: 44px;
 
   border-radius: 12px;
-  border: 1px solid transparent;
+  border: none;
+
   background: none;
 
-  font-size: 29px;
-
+  font-size: 28px;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  transition: 0.2s ease;
 }
 
-#prevMonth:hover,
-#nextMonth:hover {
-  transform: translateY(-2px);
-  background: #f8961e2a;
-  border-color: #F8961E;
-}
-
-/* RIGHT ACTION BUTTONS */
 #knapper {
   display: flex;
   gap: 12px;
-  align-items: center;
 }
 
-
-/* primary */
 #addProject {
-    background: #74ca6347;
-    border: 2px solid var(--color1);
-    padding: 5px 26px;
-    margin: 10px;
-    border-radius: 10px;
-    cursor: pointer;
-    color: black;
-    font-weight: 600;
+  background: #74ca6347;
+  border: 2px solid var(--color1);
 
-    transition: 0.2s ease;
-    box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+  padding: 10px 20px;
+
+  border-radius: 10px;
+  cursor: pointer;
 }
-
-/* secondary */
-#to-do {
-    background: #b137b831;
-    border: 2px solid var(--color5);
-    padding: 5px 26px;
-    margin: 10px;
-    border-radius: 10px;
-    cursor: pointer;
-    color: black;
-    font-weight: 600;
-
-    transition: 0.2s ease;
-    box-shadow: 0 6px 14px rgba(0,0,0,0.08);
-}
-
-#to-do:hover {
-  background: var(--color5);
-  color: white;
-  transform: translateY(-2px);
-  filter: brightness(1.05);
-}
-
-#addProject:hover {
-  background: var(--color1);
-  color: white;
-  transform: translateY(-2px);
-  filter: brightness(1.05);
-}
-
-/* =========================
-   CALENDAR GRID
-========================= */
 
 .calendar-wrapper {
   position: relative;
+
   background: var(--color3);
+
   border-radius: var(--radius);
-  box-shadow: var(--shadow);
   overflow: hidden;
+
+  box-shadow: var(--shadow);
 }
 
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
+
   gap: 1px;
   background: #eaeaea;
 }
 
-/* WEEKDAYS */
 .weekday {
   background: #fafafa;
+
   padding: 10px;
+
   text-align: center;
   font-size: 12px;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
+
   color: var(--muted);
   font-weight: 700;
 }
 
-/* DAY CELLS */
 .day {
-  min-height: 100px;
-  background: var(--color3);
+  min-height: 110px;
+
+  background: white;
+
   padding: 10px;
+
   position: relative;
-
-  font-size: 14px;
-  font-weight: 500;
-
-  transition: 0.15s ease;
-  cursor: pointer;
 }
-
-.day:hover {
-  background: rgba(128, 223, 109, 0.08);
-  transform: scale(1.01);
-}
-
-/* =========================
-   TIMELINES
-========================= */
 
 .timeline-layer {
+
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+
+  inset: 0;
+
   pointer-events: none;
 }
 
@@ -212,48 +138,30 @@ body {
   padding: 0 10px;
   font-size: 11px;
   font-weight: 700;
-  color: white;
+
+  color: black;
 
   box-shadow: 0 6px 14px rgba(0,0,0,0.15);
   pointer-events: auto;
 
-  opacity: 0.65;
+  opacity: 0.72;
   transition: 0.2s ease;
 
   white-space: nowrap;
   overflow: hidden;
 }
 
-.timeline:hover {
-  opacity: 0.9;
-  transform: scaleY(1.15);
-}
-
-/* =========================
-   FOOTER
-========================= */
-
-.footer {
-  margin-top: 20px;
-  padding: 16px;
-  text-align: center;
-  color: var(--muted);
-  font-size: 13px;
-}
-
-/* =========================
-   MODAL
-========================= */
-
 .modal {
+
   position: fixed;
   inset: 0;
+
   display: flex;
   justify-content: center;
   align-items: center;
 
   background: rgba(0,0,0,0.35);
-  backdrop-filter: blur(6px);
+
   z-index: 1000;
 }
 
@@ -262,74 +170,89 @@ body {
 }
 
 .modal-content {
+
   width: 420px;
-  background: var(--color3);
-  border-radius: var(--radius);
+
+  background: white;
+
   padding: 20px;
 
-  box-shadow: var(--shadow);
+  border-radius: 16px;
+
   display: flex;
   flex-direction: column;
+
   gap: 12px;
 }
 
 .modal-content input,
 .modal-content textarea,
 .modal-content select {
+
   width: 100%;
-  padding: 10px 12px;
+
+  padding: 10px;
+
   border-radius: 12px;
-  border: 1px solid #e6e6e6;
-  outline: none;
-  font-size: 14px;
-  background: #fafafa;
+
+  border: 1px solid #ddd;
 }
 
-.modal-content textarea {
-  min-height: 90px;
-  resize: vertical;
-}
-
-.modal-content input:focus,
-.modal-content textarea:focus,
-.modal-content select:focus {
-  border-color: var(--color5);
-}
-
-/* MODAL BUTTONS */
 .modal-actions {
+
   display: flex;
+  flex-wrap: wrap;
+
   gap: 10px;
+
   margin-top: 10px;
 }
 
-.modal-actions button {
+.modal-actions button:not(#goToProject) {
+
   flex: 1;
+
+  min-width: 0;
+
   padding: 10px;
-  border-radius: 12px;
+
   border: none;
+
+  border-radius: 12px;
+
   cursor: pointer;
-  font-weight: 700;
-  transition: 0.2s ease;
 }
 
-/* SAVE */
 #saveProject {
   background: var(--color1);
+  color: white;
 }
 
-/* CANCEL */
 #closeModal {
   background: var(--color2);
 }
 
-/* DELETE */
 #deleteProject {
   background: #ff5c5c;
   color: white;
 }
 
-.modal-actions button:hover {
-  transform: translateY(-1px);
-  filter: brightness(1.05);
+#goToProject {
+
+  width: 100%;
+
+  padding: 10px;
+
+  border: none;
+
+  border-radius: 12px;
+
+  cursor: pointer;
+
+  background: var(--color5);
+  color: white;
+}
+
+.hidden {
+  display: none;
 }

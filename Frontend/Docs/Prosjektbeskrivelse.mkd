@@ -1,0 +1,33 @@
+# Prosjektbeskrivelse
+
+## Om prosjektet
+
+Tid & Ting er et webbasert prosjektstyringssystem.
+
+Målet med systemet er å gjøre det enklere å:
+
+- organisere prosjekter
+- holde oversikt over tidsfrister
+- visualisere prosjektperioder
+- administrere oppgaver
+
+Systemet er utviklet som en fullstack-applikasjon.
+
+## Målgruppe
+
+Systemet er laget for:
+
+- elever
+- studenter
+- små team
+- privat prosjektarbeid
+
+## Hovedfunksjoner
+
+- Opprette prosjekter
+- Redigere prosjekter
+- Slette prosjekter
+- Kalender med tidslinjer
+- Oppgavehåndtering
+- Prosjektdetaljer
+- Prioritering av oppgaver

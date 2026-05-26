@@ -1,2 +1,42 @@
-# Tid-Ting
-Tid &amp; Ting er en webapplikasjon som kombinerer to-do-liste og kalender. Brukeren kan lage to do lister. Koble de til prosjektene, eller selvstendig. Oppgaver kan legges til, fullføres og fjernes, mens prosjekter vises som tidslinjer i kalenderen. Prosjektet er under utvikling, med planer om backend-integrasjon for utvidet funksjonalitet.
+# Tid & Ting
+
+Tid & Ting er et prosjektstyringssystem utviklet med HTML, CSS, JavaScript, Node.js, Express og MariaDB.
+
+Systemet lar brukeren:
+
+- Opprette prosjekter
+- Administrere oppgaver
+- Visualisere prosjekter i kalender
+- Organisere arbeid med tidslinjer
+- Holde oversikt over fremdrift
+
+## Teknologier
+
+- HTML5
+- CSS3
+- Vanilla JavaScript
+- Node.js
+- Express.js
+- MariaDB
+
+## Starte prosjektet
+
+### Backend
+
+```bash
+cd Backend
+npm install
+node server.js
+```
+
+### Frontend
+Åpne:
+````
+Frontend/index.html
+````
+
+### Port
+Server kjører på:
+````
+http://localhost:3007
+````

@@ -26,6 +26,18 @@ const projectDescription = document.getElementById("projectDescription");
 const projectStart = document.getElementById("projectStart");
 const projectEnd = document.getElementById("projectEnd");
 const projectColor = document.getElementById("projectColor");
+const privacyModal = document.getElementById("privacyModal");
+const acceptPrivacyBtn = document.getElementById("acceptPrivacyBtn");
+
+// Always show modal on page load
+window.addEventListener("load", () => {
+    privacyModal.classList.remove("hidden");
+});
+
+// Close modal (no saving to localStorage)
+acceptPrivacyBtn.addEventListener("click", () => {
+    privacyModal.classList.add("hidden");
+});
 
 // =========================
 // MODAL OPEN (NEW PROJECT)

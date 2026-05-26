@@ -1,0 +1,166 @@
+    <!DOCTYPE html>
+    <html lang="no">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>FAQ - Tid og ting</title>
+        <link rel="stylesheet" href="css/style.css">
+        <style>
+
+            body {
+                background: #f3f4f6;
+                font-family: system-ui, Arial, sans-serif;
+                color: #111827;
+            }
+
+            .container {
+                max-width: 800px;
+                margin: 50px auto;
+                padding: 28px;
+
+                background: #ffffff;
+                border-radius: 14px;
+
+                box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            }
+
+            h2 {
+                font-size: 28px;
+                margin-bottom: 20px;
+            }
+
+            .faq {
+                border: 1px solid #e5e7eb;
+                border-radius: 12px;
+
+                margin-bottom: 12px;
+                overflow: hidden;
+
+                background: #ffffff;
+            }
+
+            .question {
+                padding: 14px 16px;
+                font-weight: 600;
+                cursor: pointer;
+
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                background: #f9fafb;
+
+                transition: 0.2s;
+            }
+
+            .question:hover {
+                background: #f3f4f6;
+            }
+
+            .question::after {
+                content: "+";
+                font-size: 25px;
+                color: #000000;
+            }
+
+            .faq.open .question::after {
+                content: "–";
+            }
+
+            .answer {
+                display: none;
+
+                padding: 14px 16px;
+
+                background: #ffffff;
+
+                color: #000000;
+                font-size: 17px;
+                line-height: 1.7;
+
+                border-top: 1px solid #e5e7eb;
+            }
+
+            .faq.open .answer {
+                display: block;
+            }
+        </style>
+    </head>
+    <body>
+    <main>
+    <nav>
+        <a href="index.html" class="logo-link">
+            <img src="Images/Logo.png" alt="Nettside logo">
+        </a>
+
+        <a href="index.html" class="title-link">
+            <h1>Tid & Ting</h1>
+        </a>
+
+        <div id="button_holders">
+            <a href="calendar.html">
+                <button><b>Kalendar</b></button>
+            </a>
+
+            <a href="reminders.html">
+                <button><b>Påminnelser</b></button>
+            </a>
+        </div>
+    </nav>
+    <div class="container">
+
+        <div class="faq">
+            <div class="question">Hva er Tid og ting?</div>
+            <div class="answer">Tid og ting er en to-do liste/nettside hvor du kan lage, organisere og fullføre oppgaver.</div>
+        </div>
+
+        <div class="faq">
+            <div class="question">Koster det noe å bruke siden?</div>
+            <div class="answer">Nei, prosjektet er helt gratis å bruke.</div>
+        </div>
+
+        <div class="faq">
+            <div class="question">(Etter installasjon av innloggingssystem) Må jeg lage en bruker?</div>
+            <div class="answer">Ja, for å lagre oppgaver og bruke funksjoner som påminnelser må du ha en konto.</div>
+        </div>
+
+        <div class="faq">
+            <div class="question">Blir dataene mine lagret trygt?</div>
+            <div class="answer">Ja, passord lagres kryptert og vi bruker sikre metoder for å beskytte data.</div>
+        </div>
+
+        <div class="faq">
+            <div class="question">(Etter installasjon av innloggingssystem) Kan jeg slette kontoen min?</div>
+            <div class="answer">Ja, du kan når som helst be om at kontoen og dataene dine blir slettet.</div>
+        </div>
+
+        <div class="faq">
+            <div class="question">Hva skjer hvis jeg glemmer passordet?</div>
+            <div class="answer">Du kan bruke “glemt passord”-funksjonen (hvis implementert) for å lage nytt passord.</div>
+        </div>
+
+    </div>
+    </main>
+    <footer>
+        <div>© 2026 Tid og ting</div>
+
+        <div class="footer-links">
+            <p><a href="faq.html">FAQ</a></p>
+            <span>|</span>
+        <p><a href="personvernserklæring.html">Personvernserklæring</a></p>
+        </div>
+    </footer>
+
+    <script>
+        const questions = document.querySelectorAll(".question");
+
+        questions.forEach(q => {
+            q.addEventListener("click", () => {
+                const answer = q.nextElementSibling;
+                answer.style.display = answer.style.display === "block" ? "none" : "block";
+            });
+        });
+    </script>
+
+    </body>
+    </html>

@@ -22,6 +22,18 @@
     src: url("../Font/Relationship\ of\ mélodrame.ttf");
 }
 
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
 
 nav {
     position: sticky;
@@ -114,4 +126,48 @@ nav button:hover {
 
 nav button:active {
     transform: translateY(0px);
+}
+
+footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 18px 24px;
+    margin-top: 40px;
+
+    background: #ffffff;
+    border-top: 1px solid #e6e6e6;
+
+    font-size: 18px;
+    color: #000000;
+}
+footer span{
+    color: #000000;
+    font-size: 20px;
+}
+
+.footer-links {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.footer-links p {
+    margin: 0;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.footer-links p:hover {
+    color: #4a6cf7;
+}
+
+.footer-links span {
+    color: #bbb;
+}
+
+footer a{
+    text-decoration: none;
+    color: #000000;
 }

@@ -14,6 +14,37 @@ body {
     background: var(--color2);
 }
 
+.modal-contentp {
+    background: var(--color3);
+    display: flex;
+    flex-direction: column;
+
+    gap: 14px;
+
+    box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+
+    border: 1px solid rgba(0,0,0,0.05);
+
+    transform: scale(0.96);
+    animation: popIn 0.18s ease-out forwards;
+    width: 650px;
+    max-width: 92%;
+    max-height: 85vh;
+    overflow-y: auto;
+
+    border-radius: 24px;
+    padding: 32px;
+}
+
+.modal-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.modal-buttons button {
+    width: 100%;
+}
 /* =========================
    HEADER
 ========================= */

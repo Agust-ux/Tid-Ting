@@ -414,6 +414,6 @@ app.delete("/api/reminders/:id", async (req, res) => {
 // =========================
 // START SERVER
 // =========================
-app.listen(3007, () => {
-    console.log("Server running on http://localhost:3007");
+app.listen(3008, () => {
+    console.log("Server running on http://localhost:3008");
 });
